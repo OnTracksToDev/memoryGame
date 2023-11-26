@@ -1,0 +1,68 @@
+@import url("https://fonts.googleapis.com/css2?family=Tilt+Neon&display=swap");
+h1 {
+  font-family: "Arial", sans-serif;
+}
+
+body {
+  background-color: #e7ecef;
+  color: #333;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.game-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  border: 2px solid #333;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  padding: 25px;
+}
+
+.memory-game {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -ms-flex-line-pack: center;
+      align-content: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.card {
+  border-radius: 5px;
+  font-family: "Tilt Neon", sans-serif;
+  width: 200px;
+  height: 270px;
+  background-color: #3DA5D9;
+  margin: 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  cursor: pointer;
+  font-size: 1.5rem;
+}
+
+.img-card {
+  width: 100%;
+  height: 100%;
+}
+
+.flipped {
+  background-color: #e7ecef;
+  border: 2px solid #333;
+}/*# sourceMappingURL=style.css.map */

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <title>Memory Game</title>
+    <style>
+      .card-img-top {
+        flex: 1;
+        aspect-ratio: 1;
+        object-fit: cover;
+      }
+      .card {
+        width: 11rem;
+        height: 18rem;
+        cursor: pointer;
+        background-color: aqua;
+      }
+
+      .flipped {
+        background-color: bisque;
+        color: black;
+        border: 2px solid #00f;
+      }
+      @media (max-width: 768px) {
+        .card {
+          width: 100%;
+          height: auto;
+        }
+      }
+    </style>
+  </head>
+  <body class="bg-danger-subtle">
+    <div class="container my-5">
+      <h1 class="text-center">Memory Game</h1>
+
+      <section class="bg-light p-4">
+        <div class="row justify-content-center">
+          <div class="col-md-12 col-lg-10">
+            <div
+              class="memory-game row justify-content-center align-items-center"
+            >
+              <!-- Grille de cartes -->
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <script>
+      const cards = [
+        { id: 1, name: "lion", imgCard: "lion" },
+        { id: 2, name: "lion", imgCard: "lion" },
+        { id: 3, name: "éléphant", imgCard: "elephant" },
+        { id: 4, name: "éléphant", imgCard: "elephant" },
+        { id: 5, name: "tigre", imgCard: "tigre" },
+        { id: 6, name: "tigre", imgCard: "tigre" },
+        { id: 7, name: "ours", imgCard: "ours" },
+        { id: 8, name: "ours", imgCard: "ours" },
+        { id: 9, name: "girafe", imgCard: "girafe" },
+        { id: 10, name: "girafe", imgCard: "girafe" },
+        { id: 11, name: "pingouin", imgCard: "pingouin" },
+        { id: 12, name: "pingouin", imgCard: "pingouin" },
+      ];
+
+      function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          const temp = array[i];
+          array[i] = array[j];
+          array[j] = temp;
+        }
+      }
+
+      shuffleArray(cards);
+
+      const memoryGame = document.querySelector(".memory-game");
+
+      cards.forEach((card, index) => {
+        const cardElement = document.createElement("div");
+        cardElement.classList.add("card");
+        cardElement.setAttribute("data-card", card.name);
+        cardElement.setAttribute("data-imgCard", card.imgCard);
+
+        memoryGame.appendChild(cardElement);
+      });
+      let flippedCards = [];
+      let matchedPairs = 0;
+
+      document.querySelectorAll(".card").forEach((card) => {
+        card.addEventListener("click", () => {
+          if (card.classList.contains("flipped") || flippedCards.length === 2) {
+            return;
+          }
+
+          let cardContent = card.querySelector(".card-content");
+
+          if (!cardContent) {
+            cardContent = document.createElement("div");
+            cardContent.classList.add("card-content");
+
+            const imgCard = document.createElement("img");
+            imgCard.classList.add("card-img-top", "rounded-circle", "mt-5");
+            imgCard.src = `./image/${card.getAttribute("data-imgCard")}.jpg`;
+
+            const bodyCard = document.createElement("div");
+            bodyCard.classList.add("card-body", "text-center", "mt-3");
+
+            const textCard = document.createElement("p");
+            textCard.classList.add("card-text");
+            textCard.textContent = card.getAttribute("data-card");
+
+            bodyCard.appendChild(textCard);
+            cardContent.appendChild(imgCard);
+            cardContent.appendChild(bodyCard);
+            card.appendChild(cardContent);
+          }
+
+          card.classList.add("flipped");
+          flippedCards.push(card);
+
+          if (flippedCards.length === 2) {
+            const [card1, card2] = flippedCards;
+            const card1Type = card1.getAttribute("data-card");
+            const card2Type = card2.getAttribute("data-card");
+
+            if (card1Type === card2Type) {
+              flippedCards = [];
+              matchedPairs++;
+
+              if (matchedPairs === cards.length / 2) {
+                setTimeout(() => {
+                  alert("Félicitations, vous avez gagné !");
+                }, 500);
+              }
+            } else {
+              setTimeout(() => {
+                if (flippedCards.length === 2) {
+                  const [card1, card2] = flippedCards;
+                  const card1Type = card1.getAttribute("data-card");
+                  const card2Type = card2.getAttribute("data-card");
+
+                  if (card1Type !== card2Type) {
+                    card1.classList.remove("flipped");
+                    card2.classList.remove("flipped");
+
+                    removeCardContent(card1);
+                    removeCardContent(card2);
+                  }
+
+                  flippedCards = [];
+                }
+              }, 1000);
+
+              function removeCardContent(card) {
+                const cardContent = card.querySelector(".card-content");
+                if (cardContent) {
+                  card.removeChild(cardContent);
+                }
+              }
+            }
+          }
+        });
+      });
+    </script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+      integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+      integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
