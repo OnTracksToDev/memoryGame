@@ -7,16 +7,16 @@ $primary-color: #3498db;
 $secondary-color: #e74c3c;
 $black: #333;
 
-// Couleurs de texte
-$background:#e7ecef;
+// Couleurs card content
+$background:green;
 
-// Couleurs de fond
-$card-color: #3DA5D9;
+// Couleurs card
+$card-color: blue;
 // $border-color:  ;
 
 
-$card-width:200px;
-$card-height:  270px ;
+$card-width:11rem;
+$card-height:  18rem ;
 
 // Typography
 $title-font-family: 'Arial', sans-serif; // Police principale
@@ -83,7 +83,6 @@ body{
     width: $card-width;
     height: $card-height;
     background-color: $card-color;
-    margin: 10px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -99,4 +98,16 @@ body{
   .flipped {
     background-color: $background;
     border: 2px solid $black;
+  }
+  .card-img-top {
+    flex: 1;
+    aspect-ratio: 1;
+    object-fit: cover;
+  }
+
+  @media (max-width: 768px) {
+    .card {
+      width: 100%;
+      height: auto;
+    }
   }
