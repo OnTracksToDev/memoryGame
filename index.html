@@ -12,17 +12,32 @@
       integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
       crossorigin="anonymous"
     />
-    <link href="./CSS/style.css" rel="stylesheet"/>
+    <link href="./CSS/style.css" rel="stylesheet" />
     <title>Memory Game</title>
   </head>
-  
+
   <body class="bg-light">
+    <nav class="navbar bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand link-light" href="#">
+          <img
+            src="/image/logo.jpg"
+            alt="Logo"
+            width="50"
+            height="50"
+            class="d-inline-block align-text-top rounded-5"
+          />
+          The Playground
+        </a>
+      </div>
+    </nav>
     <div class="container my-5">
       <h1 class="text-center">Memory Game</h1>
 
       <section class="bg-light p-4">
         <div class="row justify-content-center">
           <div class="col-md-12 col-lg-10">
+            
             <div
               class="memory-game row justify-content-center align-items-center"
             >
@@ -57,8 +72,8 @@
           array[j] = temp;
         }
       }
+shuffleArray(cards);
 
-      shuffleArray(cards);
 
       const memoryGame = document.querySelector(".memory-game");
 
@@ -73,6 +88,10 @@
       let flippedCards = [];
       let matchedPairs = 0;
 
+
+
+
+      
       document.querySelectorAll(".card").forEach((card) => {
         card.addEventListener("click", () => {
           if (card.classList.contains("flipped") || flippedCards.length === 2) {

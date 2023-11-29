@@ -3,12 +3,12 @@
 
 // // Colors
 // Couleurs principales
-$primary-color: #3498db;
+$primary-color: #94a1a9;
 $secondary-color: #e74c3c;
 $black: #333;
 
 // Couleurs card content
-$background:green;
+$background:white;
 
 // Couleurs card
 $card-color: blue;
@@ -105,9 +105,5 @@ body{
     object-fit: cover;
   }
 
-  @media (max-width: 768px) {
-    .card {
-      width: 100%;
-      height: auto;
-    }
-  }
+ 
+  
