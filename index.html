@@ -37,15 +37,60 @@
       <section class="bg-light p-4">
         <div class="row justify-content-center">
           <div class="col-md-12 col-lg-10">
-            
             <div
               class="memory-game row justify-content-center align-items-center"
             >
               <!-- Grille de cartes -->
             </div>
+            <div class="col-md-12 col-lg-10">
+
+            <button id="shuffleButton" class="btn btn-primary mt-3">
+              Redistribuer les cartes
+            </button>
+            </div>
           </div>
         </div>
       </section>
+    </div>
+
+    <div
+      class="modal fade"
+      id="victoryModal"
+      tabindex="-1"
+      aria-labelledby="victoryModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="victoryModalLabel">👏👏Félicitations!</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">Vous avez gagné!🏆</div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Fermer
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              onclick="resetGame()"
+              data-bs-dismiss="modal"
+            >
+              Recommencer
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <script>
@@ -72,101 +117,112 @@
           array[j] = temp;
         }
       }
-shuffleArray(cards);
-
 
       const memoryGame = document.querySelector(".memory-game");
 
-      cards.forEach((card, index) => {
-        const cardElement = document.createElement("div");
-        cardElement.classList.add("card");
-        cardElement.setAttribute("data-card", card.name);
-        cardElement.setAttribute("data-imgCard", card.imgCard);
+      function resetGame() {
+        matchedPairs = 0;
+        flippedCards = [];
+        memoryGame.innerHTML = "";
+        shuffleArray(cards);
+        cards.forEach((card, index) => {
+          const cardElement = document.createElement("div");
+          cardElement.classList.add("card");
+          cardElement.setAttribute("data-card", card.name);
+          cardElement.setAttribute("data-imgCard", card.imgCard);
 
-        memoryGame.appendChild(cardElement);
-      });
-      let flippedCards = [];
-      let matchedPairs = 0;
+          memoryGame.appendChild(cardElement);
+        });
 
+        document.querySelectorAll(".card").forEach((card) => {
+          card.addEventListener("click", () => {
+            if (card.classList.contains("flipped") ||flippedCards.length === 2) {
+              return;
+            }
 
+            let cardContent = card.querySelector(".card-content");
 
+            if (!cardContent) {
+              cardContent = document.createElement("div");
+              cardContent.classList.add("card-content");
 
-      
-      document.querySelectorAll(".card").forEach((card) => {
-        card.addEventListener("click", () => {
-          if (card.classList.contains("flipped") || flippedCards.length === 2) {
-            return;
-          }
+              const imgCard = document.createElement("img");
+              imgCard.classList.add("card-img-top", "rounded-circle", "mt-5");
+              imgCard.src = `./image/${card.getAttribute("data-imgCard")}.jpg`;
 
-          let cardContent = card.querySelector(".card-content");
+              const bodyCard = document.createElement("div");
+              bodyCard.classList.add("card-body", "text-center", "mt-3");
 
-          if (!cardContent) {
-            cardContent = document.createElement("div");
-            cardContent.classList.add("card-content");
+              const textCard = document.createElement("p");
+              textCard.classList.add("card-text");
+              textCard.textContent = card.getAttribute("data-card");
 
-            const imgCard = document.createElement("img");
-            imgCard.classList.add("card-img-top", "rounded-circle", "mt-5");
-            imgCard.src = `./image/${card.getAttribute("data-imgCard")}.jpg`;
+              bodyCard.appendChild(textCard);
+              cardContent.appendChild(imgCard);
+              cardContent.appendChild(bodyCard);
+              card.appendChild(cardContent);
+            }
 
-            const bodyCard = document.createElement("div");
-            bodyCard.classList.add("card-body", "text-center", "mt-3");
+            card.classList.add("flipped");
+            flippedCards.push(card);
 
-            const textCard = document.createElement("p");
-            textCard.classList.add("card-text");
-            textCard.textContent = card.getAttribute("data-card");
+            if (flippedCards.length === 2) {
+              const [card1, card2] = flippedCards;
+              const card1Type = card1.getAttribute("data-card");
+              const card2Type = card2.getAttribute("data-card");
 
-            bodyCard.appendChild(textCard);
-            cardContent.appendChild(imgCard);
-            cardContent.appendChild(bodyCard);
-            card.appendChild(cardContent);
-          }
+              if (card1Type === card2Type) {
+                flippedCards = [];
+                matchedPairs++;
 
-          card.classList.add("flipped");
-          flippedCards.push(card);
-
-          if (flippedCards.length === 2) {
-            const [card1, card2] = flippedCards;
-            const card1Type = card1.getAttribute("data-card");
-            const card2Type = card2.getAttribute("data-card");
-
-            if (card1Type === card2Type) {
-              flippedCards = [];
-              matchedPairs++;
-
-              if (matchedPairs === cards.length / 2) {
-                setTimeout(() => {
-                  alert("Félicitations, vous avez gagné !");
-                }, 500);
-              }
-            } else {
-              setTimeout(() => {
-                if (flippedCards.length === 2) {
-                  const [card1, card2] = flippedCards;
-                  const card1Type = card1.getAttribute("data-card");
-                  const card2Type = card2.getAttribute("data-card");
-
-                  if (card1Type !== card2Type) {
-                    card1.classList.remove("flipped");
-                    card2.classList.remove("flipped");
-
-                    removeCardContent(card1);
-                    removeCardContent(card2);
-                  }
-
-                  flippedCards = [];
+                if (matchedPairs === cards.length / 2) {
+                  openVictoryModal();
                 }
-              }, 1000);
+              } else {
+                setTimeout(() => {
+                  if (flippedCards.length === 2) {
+                    const [card1, card2] = flippedCards;
+                    const card1Type = card1.getAttribute("data-card");
+                    const card2Type = card2.getAttribute("data-card");
 
-              function removeCardContent(card) {
-                const cardContent = card.querySelector(".card-content");
-                if (cardContent) {
-                  card.removeChild(cardContent);
+                    if (card1Type !== card2Type) {
+                      card1.classList.remove("flipped");
+                      card2.classList.remove("flipped");
+
+                      removeCardContent(card1);
+                      removeCardContent(card2);
+                    }
+
+                    flippedCards = [];
+                  }
+                }, 1000);
+
+                function removeCardContent(card) {
+                  const cardContent = card.querySelector(".card-content");
+                  if (cardContent) {
+                    card.removeChild(cardContent);
+                  }
                 }
               }
             }
-          }
+          });
         });
+      }
+
+      document.getElementById("shuffleButton").addEventListener("click", () => {
+        resetGame();
       });
+
+      let flippedCards = [];
+      let matchedPairs = 0;
+
+      function openVictoryModal() {
+        const victoryModal = new bootstrap.Modal(
+          document.getElementById("victoryModal")
+        );
+        victoryModal.show();
+      }
+      resetGame();
     </script>
     <script
       src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
