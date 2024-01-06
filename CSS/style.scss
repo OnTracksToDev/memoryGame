@@ -1,23 +1,20 @@
-@import url('https://fonts.googleapis.com/css2?family=Tilt+Neon&display=swap');
-
+@import url("https://fonts.googleapis.com/css2?family=Tilt+Neon&display=swap");
 
 // // Colors
 $black: #333;
-
 // Couleurs card content
-$background:#92C894;
-
+$background: #f2bc31;
+$border: #db4249;
 // Couleurs card
-$card-color: #fff3b0;
+$card-color: #48b6dc;
 // $border-color:  ;
 
-
-$card-width:11rem;
-$card-height:  18rem ;
+$card-width: 11rem;
+$card-height: 18rem;
 
 // Typography
-$title-font-family: 'Arial', sans-serif; // Police principale
-$text-font-family: 'Tilt Neon', sans-serif; ;
+$title-font-family: "Arial", sans-serif; // Police principale
+$text-font-family: "Tilt Neon", sans-serif;
 
 // Variables h1
 $h1-font-size: 3rem;
@@ -49,58 +46,57 @@ $body-font-size: 1rem;
 $body-font-weight: normal;
 $body-line-height: 1.4;
 
-
-h1{
-    font-family: $title-font-family;
+h1 {
+  font-family: $title-font-family;
 }
 
-body{
-    background-color: $background;
-    color: $black;
-    box-sizing: border-box;
+body {
+  background-color: $background;
+  color: $black;
+  box-sizing: border-box;
 }
-.game-container{
-    display: flex;
-    border: 2px solid $black;
-    flex-wrap: wrap;
-    padding: 25px;
+.game-container {
+  display: flex;
+  border: 2px solid $black;
+  flex-wrap: wrap;
+  padding: 25px;
 }
 
 .memory-game {
-    display: flex;
-    flex-wrap: wrap;
-    align-content: center;
-    justify-content: center;
-  }
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
+}
 
-  .card {
-    border-radius: 5px;
+.card {
+  border-radius: 5px;
 
-    font-family: $text-font-family;
-    width: $card-width;
-    height: $card-height;
-    background-color: $card-color;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    font-size: $h3-font-size;
-  }
-  .img-card{
-    width: 100%;
-    height: 100%;
-  }
+  font-family: $text-font-family;
+  width: $card-width;
+  height: $card-height;
+  background-color: $card-color;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: $h3-font-size;
+}
+.img-card {
+  width: 100%;
+  height: 100%;
+}
 
-  .flipped {
-    background-color: $background;
-    border: 2px solid $black;
-  }
-  .card-img-top {
-    flex: 1;
-    aspect-ratio: 1;
-    object-fit: cover;
-  }
-
- 
-  
+.flipped {
+  background-color: $background;
+  border: 2px solid $border;
+  // Ajouter une ombre à la bordure
+  box-shadow: 3px 3px 3px 0px $border, -3px 3px 3px 0px $border,
+    3px -3px 3px 0px $border, -3px -3px 3px 0px $border;
+}
+.card-img-top {
+  flex: 1;
+  aspect-ratio: 1;
+  object-fit: cover;
+}
